@@ -60,8 +60,8 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
 
 async def init_db() -> None:
     """Initialize schema, extensions, and hybrid-search indexes."""
-    from app.db.base import Base
     import app.models.documents  # noqa: F401
+    from app.db.base import Base
 
     engine = get_engine()
     settings = get_settings()

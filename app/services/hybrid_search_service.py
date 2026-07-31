@@ -8,7 +8,6 @@ import logging
 import math
 import re
 from collections import defaultdict
-from typing import Any
 
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession

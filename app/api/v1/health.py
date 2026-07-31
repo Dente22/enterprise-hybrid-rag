@@ -2,6 +2,7 @@
 
 from fastapi import APIRouter, Depends
 from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.deps import get_session
@@ -20,7 +21,7 @@ async def health(
     try:
         await session.execute(text("SELECT 1"))
         db_ok = True
-    except Exception:
+    except SQLAlchemyError:
         db_ok = False
 
     return {

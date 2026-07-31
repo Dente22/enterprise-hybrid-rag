@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from sqlalchemy import text
@@ -37,7 +37,7 @@ class IngestService:
         """Chunk, embed, and index a text document."""
         cleaned = sanitize_user_text(raw_text, field_name="document text")
         meta = dict(metadata or {})
-        meta.setdefault("ingestion_ts", datetime.now(timezone.utc).isoformat())
+        meta.setdefault("ingestion_ts", datetime.now(UTC).isoformat())
 
         document = Document(
             source=source[:255],
@@ -94,7 +94,7 @@ class IngestService:
             source=document.source,
             chunk_count=len(chunks),
             embedding_provider=provider_used,
-            created_at=document.created_at or datetime.now(timezone.utc),
+            created_at=document.created_at or datetime.now(UTC),
         )
 
     async def _sync_postgres_indexes(

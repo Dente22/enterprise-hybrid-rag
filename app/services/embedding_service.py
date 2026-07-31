@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 import math
-from typing import Literal
+from typing import Literal, Self
 
 import httpx
 
@@ -32,7 +32,7 @@ class EmbeddingService:
         self._owns_client = client is None
         self._preferred_provider = provider
 
-    async def __aenter__(self) -> EmbeddingService:
+    async def __aenter__(self) -> Self:
         if self._client is None:
             self._client = httpx.AsyncClient(timeout=httpx.Timeout(90.0, connect=10.0))
         return self

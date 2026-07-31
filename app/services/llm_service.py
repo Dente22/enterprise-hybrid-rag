@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 import re
-from typing import Any, Literal
+from typing import Any, Literal, Self
 
 import httpx
 from pydantic import ValidationError
@@ -60,7 +60,7 @@ class LLMService:
         self._client = client
         self._owns_client = client is None
 
-    async def __aenter__(self) -> LLMService:
+    async def __aenter__(self) -> Self:
         if self._client is None:
             self._client = httpx.AsyncClient(timeout=httpx.Timeout(120.0, connect=10.0))
         return self
@@ -200,7 +200,7 @@ class LLMService:
             text = re.sub(r"\s*```$", "", text)
         data = json.loads(text)
         if not isinstance(data, dict):
-            raise ValueError("LLM JSON root must be an object")
+            raise TypeError("LLM JSON root must be an object")
         return data
 
     @staticmethod
